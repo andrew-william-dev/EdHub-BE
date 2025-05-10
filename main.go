@@ -5,6 +5,7 @@ import (
 	"EdHub-BE/middleware"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -13,6 +14,10 @@ func main() {
 	http.HandleFunc("/send-otp", middleware.CORS_MIDDLEWARE(handlers.SendOTP))
 	http.HandleFunc("/verify", middleware.CORS_MIDDLEWARE(handlers.VerifyOTP))
 
-	log.Println("Server is Running in port 8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	log.Println("Server is Running on port", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
