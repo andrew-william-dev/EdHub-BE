@@ -2,18 +2,11 @@ package utils
 
 import (
 	"fmt"
-	"log"
 	"net/smtp"
 	"os"
-
-	"github.com/joho/godotenv"
 )
 
 func SendEmailOTP(recipient, otp string) error {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
 	mailKey := os.Getenv("MAIL_KEY")
 	from := "edhub2025@gmail.com"
 	password := mailKey
@@ -42,15 +35,11 @@ func SendEmailOTP(recipient, otp string) error {
 
 	message := []byte("MIME-Version: 1.0\r\nContent-Type: text/html; charset=UTF-8\r\n" + subject + "\r\n" + body)
 
-	err = smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{recipient}, message)
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{recipient}, message)
 	return err
 }
 
 func SendForgotMailOTP(recipient, otp string) error {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
 	mailKey := os.Getenv("MAIL_KEY")
 	from := "edhub2025@gmail.com"
 	password := mailKey
@@ -63,6 +52,6 @@ func SendForgotMailOTP(recipient, otp string) error {
 	body := fmt.Sprintf("Your OTP for verification is: %s", otp)
 	message := []byte(subject + "\n" + body)
 
-	err = smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{recipient}, message)
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{recipient}, message)
 	return err
 }
