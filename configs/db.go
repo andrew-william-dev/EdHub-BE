@@ -7,7 +7,8 @@ import (
 )
 
 func ConnectDB() *sql.DB {
-	connStr := os.Getenv("CONN_STR")
+	log.Println("Connecting to DB:", os.Getenv("CONN_STR"))
+	connStr := "postgresql://neondb_owner:npg_7YKfMJCqWe2l@ep-raspy-violet-a95zz6n1-pooler.gwc.azure.neon.tech/neondb?sslmode=require"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal("Failed to connect with the DataBase:", err)
