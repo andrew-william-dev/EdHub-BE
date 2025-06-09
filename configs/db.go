@@ -13,5 +13,10 @@ func ConnectDB() *sql.DB {
 		log.Fatal("Failed to connect with the DataBase:", err)
 	}
 
+	err = db.Ping()
+	if err != nil {
+		log.Fatal("Failed to ping DB:", err)
+	}
+
 	return db
 }
