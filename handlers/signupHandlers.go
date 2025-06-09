@@ -5,6 +5,7 @@ import (
 	"EdHub-BE/models"
 	"EdHub-BE/utils"
 	"encoding/json"
+	"log"
 	"net/http"
 	"strings"
 
@@ -30,6 +31,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 
 	_, err = db.Exec("INSERT INTO users (userName, email, password) VALUES ($1, $2, $3)", user.Username, user.Email, hashPwd)
 	if err != nil {
+		log.Println("DB Insert Error:", err)
 		if pqErr, ok := err.(*pq.Error); ok {
 			if pqErr.Code == "23505" && strings.Contains(pqErr.Message, "email") {
 				utils.Response(w, http.StatusUnauthorized, "Email already exists")
